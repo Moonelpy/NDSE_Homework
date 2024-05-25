@@ -1,20 +1,14 @@
 {
   "name": "nodejs_curs",
   "version": "1.0.0",
-  "description": "Курс по Express",
+  "description": "Домашнее задание",
   "main": "index.js",
-  "bin": {
-    "simple-date": "./Date.js"
-  },
   "scripts": {
     "serv": "node server.js"
   },
   "author": "Ivan",
   "license": "ISC",
   "devDependencies": {
-    "@eslint/js": "^9.3.0",
-    "eslint": "^9.3.0",
-    "globals": "^15.3.0"
   },
   "dependencies": {
     "express": "^4.19.2",

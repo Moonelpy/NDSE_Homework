@@ -4,7 +4,7 @@ const { hideBin } = require('yargs/helpers');
 
 const currentDate = new Date();
 
-const argv = yargs(hideBin(process.argv))
+yargs(hideBin(process.argv))
     .command(
         'current',
         'Текущая дата и время',
