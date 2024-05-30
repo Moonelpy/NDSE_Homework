@@ -4,6 +4,7 @@ const path = require('path');
 const logFilePath = process.argv[2];
 const logPath = path.join(__dirname, logFilePath);
 
+// Программа принимает в качестве аргумента log.txt
 fs.readFile(logPath, 'utf8', (err, data) => {
   if (err) {
     console.log('Ошибка чтения файла:', err);
@@ -34,4 +35,4 @@ fs.readFile(logPath, 'utf8', (err, data) => {
   console.log(`Процент побед: ${winPercentage.toFixed(2)}%`);
 });
 
-/*Программа принимает в качестве аргумента log.txt */
+

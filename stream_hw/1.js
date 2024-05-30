@@ -21,6 +21,7 @@ function logResult(fileName, result) {
   });
 }
 
+// Для корректного запуска нужно передать имя файла log.txt
 function game() {
   rl.prompt();
   rl.on('line', (input) => {
@@ -40,5 +41,5 @@ function game() {
     console.log('Спасибо за игру!');
   });
 }
-// Для корректного запуска нужно передать имя файла, в данном случае log.txt
+
 game();
