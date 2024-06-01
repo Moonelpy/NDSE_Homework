@@ -1,50 +1,51 @@
-require('dotenv').config();
 const http = require('http');
 const https = require('https');
 const url = require('url');
-const { API_KEY, BASE_URL, PORT } = process.env;
+const {default_city, api_key, base_url, port} = require('../config');
 
-const server = https.createServer((req, res) => {
-  const queryObject = url.parse(req.url, true);
-  const city = queryObject.city;
+const server = http.createServer((req, res) => {
+  const queryObject = url.parse(req.url, true).query;
+  const queryCity = queryObject.city;
+  const city = queryCity? queryCity : default_city 
+  console.log(city);
+  const requestUrl = `${base_url}?q=${city}&lang=RU&key=${api_key}`;
 
-  const requestUrl = `${BASE_URL}?q=${city}&lang=RU&key=${API_KEY}`;
-  console.log(`Request URL: ${requestUrl}`); // Отладка
-  https
-    .get(requestUrl, (response) => {
-      let data = '';
+  https.get(requestUrl, (response) => {
+    let data = '';
 
-      response.on('data', (chunk) => {
-        data += chunk;
-      });
-
-      response.on('end', () => {
-        // const weather = JSON.parse(data);
-        // console.log(`Parsed weather data: ${JSON.stringify(weather)}`); // Отладка
-        if (response.statusCode === 200) {
-          const weather = JSON.parse(data);
-          console.log(`Parsed weather data: ${JSON.stringify(weather)}`); // Отладка
-          res.end(JSON.stringify({
-              city: weather.location.name,
-              temperature: weather.current.temp_c,
-              description: weather.current.condition,
-          }));
-        } else {
-          const error = JSON.parse(data);
-          console.log(`API error: ${error.message}`); //Отладка
-          res.writeHead(response.statusCode, {
-            'Content-Type': 'application/json',
-          });
-          res.end(JSON.stringify({ error: error.message }));
-        }
-      });
-    })
-    .on('error', (err) => {
-      res.writeHead(500, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: `Ошибка запроса: ${err.message}` }));
+    response.on('data', chunk => {
+      data += chunk;
     });
+
+    response.on('end', () => {
+
+      if (response.statusCode === 200) {
+        try {
+          const weather = JSON.parse(data);
+          res.writeHead(200, {'Content-Type': 'application/json'});
+          res.end(JSON.stringify({
+            'Город': weather.location.name,
+            'Температура': weather.current.temp_c,
+            'Описание': weather.current.condition.text
+          }));
+        } catch (e) {
+          res.writeHead(500, {'Content-Type': 'application/json'});
+          res.end(JSON.stringify({ error: 'Ошибка обработки данных от API' }));
+        }
+
+      } else {
+        const error = JSON.parse(data);
+        res.writeHead(response.statusCode, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({ error: error.message }));
+      }
+    });
+  }).on('error', (err) => {
+    console.log(`Request error: ${err.message}`); // Debug log
+    res.writeHead(500, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify({ error: `Ошибка запроса: ${err.message}` }));
+  });
 });
 
-server.listen(PORT, () => {
-  console.log(`Сервер запущен на порту ${PORT}`);
+server.listen(port, () => {
+  console.log(`Сервер запущен на порту ${port}`);
 });
