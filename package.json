@@ -7,13 +7,13 @@
     "simple-date": "./Date.js"
   },
   "scripts": {
-    "serv": "node server.js"
+    "start": "node index.js",
+    "dev": "node -r dotenv/config http/index.js"
   },
   "author": "Ivan",
   "license": "ISC",
   "devDependencies": {
-    "@eslint/js": "^9.3.0",
-    "eslint": "^9.3.0",
+    "dotenv": "^16.4.5",
     "globals": "^15.3.0"
   },
   "dependencies": {
