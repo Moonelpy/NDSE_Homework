@@ -4,8 +4,6 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-//app.use(express.urlencoded({ extended: true }));
-
 class Books {
     constructor(
         id = uuid(),
@@ -96,5 +94,6 @@ app.delete('/api/books/:id', (req, res) => {
     }
 
 });
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT);
