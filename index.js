@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config()
 const express = require('express');
 const app = express();
 
@@ -13,8 +13,8 @@ app.use((req, res, next) => {
     res.status(404).send('Маршрут не найден');
 });
 
-
-const PORT = process.env.PORT || 3000;
+// Тут Number иначе не воспринимает адекватно в cmd
+const PORT = Number(process.env.PORT) || 3000;
 app.listen(PORT, () => {
     console.log(`Сервер запущен на порту ${PORT}`);
 });
