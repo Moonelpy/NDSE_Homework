@@ -13,7 +13,7 @@ app.use((req, res, next) => {
     res.status(404).send('Маршрут не найден');
 });
 
-// Тут Number иначе не воспринимает адекватно в cmd
+// Тут Number иначе не запускает и пишет что порт занят
 const PORT = Number(process.env.PORT) || 3000;
 app.listen(PORT, () => {
     console.log(`Сервер запущен на порту ${PORT}`);
