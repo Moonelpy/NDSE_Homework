@@ -29,11 +29,12 @@ router.get('/:id', (req, res) => {
 //Добавление новой книги с загрузкой файла
 router.post('/', upload.single('file'), (req, res) => {
     const { booksInLibrary } = library;
-    const { title, description, authors, favorite } = req.body;
-    const fileCover = req.file ? req.file.path : '';
+    const { title, description, authors, favorite, fileCover } = req.body;
     const fileName = req.file ? req.file.originalname : '';
+    const fileBook = req.file ? req.file.path : '';
 
-    const newBook = new Book(uuid(), title, description, authors, favorite, fileCover, fileName);
+
+    const newBook = new Book(uuid(), title, description, authors, favorite, fileCover, fileName, fileBook );
     booksInLibrary.push(newBook);
     res.status(201).json(newBook);
 });
@@ -57,7 +58,7 @@ router.put('/:id', (req, res) => {
     }
 });
 // Скачивание файла книги по ее id
-router.get('/:id/download/file', (req, res) => {
+router.get('/:id/download', (req, res) => {
     const { booksInLibrary } = library;
     const { id } = req.params;
     const idx = booksInLibrary.findIndex((el) => el.id === id);
