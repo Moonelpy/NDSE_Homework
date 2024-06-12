@@ -1,17 +1,24 @@
-require("dotenv").config()
+require("dotenv").config();
 const express = require('express');
 const app = express();
 
-const AuthRouter = require('./routes/auth');
-const BooksRouter = require('./routes/books');
+const authRouter = require('./routes/api/auth');
+const apiBooksRouter = require('./routes/api/books');
+const modBooksRouter = require('./routes/mod/books');
+const indexRouter = require('./routes/index')
+const errorMiddleware = require('./middleware/error/404')
 
-app.use(express.json());
-app.use('/api/user', AuthRouter);
-app.use('/api/books', BooksRouter);
 app.use(express.static("database/fileBooks"));
-app.use((req, res, next) => {
-    res.status(404).send('Маршрут не найден');
-});
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+app.use('/', indexRouter);
+// api внешние, mod внутрение
+app.use('/api/user', authRouter);
+app.use('/api/books', apiBooksRouter); 
+app.use('/mod/books', modBooksRouter);
+app.set("view engine", "ejs");
+app.use(errorMiddleware);
 
 // Тут Number иначе не запускает и пишет что порт занят
 const PORT = Number(process.env.PORT) || 3000;
