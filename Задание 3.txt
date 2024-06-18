@@ -1,0 +1,55 @@
+1.D:\Repository\NDSE_Homework>docker pull node:21.7.3
+21.7.3: Pulling from library/node
+c6cf28de8a06: Pull complete
+891494355808: Pull complete
+6582c62583ef: Pull complete
+bf2c3e352f3d: Pull complete
+2b542796ccab: Pull complete
+4684276225df: Pull complete
+08750d53428e: Pull complete
+5d3106ce01c3: Pull complete
+Digest: sha256:4b232062fa976e3a966c49e9b6279efa56c8d207a67270868f51b3d155c4e33d
+Status: Downloaded newer image for node:21.7.3
+docker.io/library/node:21.7.3
+
+What's next:
+    View a summary of image vulnerabilities and recommendations → docker scout quickview node:21.7.3
+
+2. D:\Repository\NDSE_Homework>docker run -d --name first_node -v D:\Repository\NDSE_Homework\data:/var/first/data node:21.7.3 tail -f /dev/null
+a28d76e7a34ff6e872c51bccc6c626b61ac495d3b9155043b8f6865f7c661b1e
+
+3. D:\Repository\NDSE_Homework>docker run -d --name second_node -v D:\Repository\NDSE_Homework\data:/var/second/data node:21.7.3 tail -f /dev/null
+a585aa7f4f5d38b2782c92e1d8838825cb7682b20dadc8b4773d47f79c8b5680
+
+4. D:\Repository\NDSE_Homework>docker exec first_node touch /var/first/data/first.txt
+
+5. Создал в папке data на хосте first_from_host.txt
+
+6. D:\Repository\NDSE_Homework>docker exec second_node cat  /var/second/data/first.txt
+Первый в докере
+
+D:\Repository\NDSE_Homework>docker exec second_node cat  /var/second/data/first_from_host.txt
+Первый с хоста
+
+7. D:\Repository\NDSE_Homework>docker stop first_node
+first_node
+
+   D:\Repository\NDSE_Homework>docker stop second_node
+second_node
+
+8. D:\Repository\NDSE_Homework>docker rm first_node && docker rm second_node
+first_node
+second_node
+
+9.D:\Repository\NDSE_Homework>docker rmi node:21.7.3
+Untagged: node:21.7.3
+Untagged: node@sha256:4b232062fa976e3a966c49e9b6279efa56c8d207a67270868f51b3d155c4e33d
+Deleted: sha256:5c8697e822135f8d9b38b54a5aa2bbd3286a092d13a68eb1bc160a883636f9b5
+Deleted: sha256:0f2d7edbc210384f6bafd49d344abf5ee09016fc1bde4539dfad6f6e8627ea6b
+Deleted: sha256:9f6bb44ab341a20cb57b9c5bcdfe4919f5b269750e6179ae6586ccf0baf2c252
+Deleted: sha256:1636f7991a7ad63cd16520cc39309a0d44a96511111c9c3128e75be1da2ed4d4
+Deleted: sha256:aab7966e5232bd526c4a90d09f9d2b244a15a6ffff5d3880c2f0e8cad1c49dd0
+Deleted: sha256:9bb22d850b6e163c76b5cee00494067210e96c4cf585e2cd9d68898e31f43f69
+Deleted: sha256:bda8b23397dec2e211c3675a41529f6784e9853e85b6d4121bcbbf3ea130b33d
+Deleted: sha256:3ed40b11816f5800cda68e5c2635e9015fbd36606998fafa0974ce778a79fa35
+Deleted: sha256:bbe1a212f7e9f1baaef62491a51254f3adda514c22632ea719f62713fad80f77

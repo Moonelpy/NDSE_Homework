@@ -1,0 +1,82 @@
+Задание 1
+1. D:\Repository\NDSE_Homework>docker pull busybox
+Using default tag: latest
+latest: Pulling from library/busybox
+ec562eabd705: Pull complete
+Digest: sha256:9ae97d36d26566ff84e8893c64a6dc4fe8ca6d1144bf5b87b2b85a32def253c7
+Status: Downloaded newer image for busybox:latest
+docker.io/library/busybox:latest
+
+2. D:\Repository\NDSE_Homework>docker run --name pinger busybox ping -c 7 netology.ru
+PING netology.ru (172.67.21.207): 56 data bytes
+64 bytes from 172.67.21.207: seq=0 ttl=63 time=41.805 ms
+64 bytes from 172.67.21.207: seq=1 ttl=63 time=38.693 ms
+64 bytes from 172.67.21.207: seq=2 ttl=63 time=39.866 ms
+64 bytes from 172.67.21.207: seq=3 ttl=63 time=43.984 ms
+64 bytes from 172.67.21.207: seq=4 ttl=63 time=38.898 ms
+64 bytes from 172.67.21.207: seq=5 ttl=63 time=38.987 ms
+64 bytes from 172.67.21.207: seq=6 ttl=63 time=39.778 ms
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 38.693/40.287/43.984 ms
+
+3. D:\Repository\NDSE_Homework>docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED              STATUS                          PORTS     NAMES
+439588f8c810   busybox   "ping -c 7 netology.…"   About a minute ago   Exited (0) About a minute ago             pinger
+
+4. D:\Repository\NDSE_Homework>docker logs pinger
+PING netology.ru (172.67.21.207): 56 data bytes
+64 bytes from 172.67.21.207: seq=0 ttl=63 time=41.805 ms
+64 bytes from 172.67.21.207: seq=1 ttl=63 time=38.693 ms
+64 bytes from 172.67.21.207: seq=2 ttl=63 time=39.866 ms
+64 bytes from 172.67.21.207: seq=3 ttl=63 time=43.984 ms
+64 bytes from 172.67.21.207: seq=4 ttl=63 time=38.898 ms
+64 bytes from 172.67.21.207: seq=5 ttl=63 time=38.987 ms
+64 bytes from 172.67.21.207: seq=6 ttl=63 time=39.778 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% pack
+
+5. D:\Repository\NDSE_Homework>docker start pinger
+pinger
+
+6. D:\Repository\NDSE_Homework>docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS                      PORTS     NAMES
+439588f8c810   busybox   "ping -c 7 netology.…"   4 minutes ago   Exited (0) 18 seconds ago             pinger
+
+7. D:\Repository\NDSE_Homework>docker logs pinger
+PING netology.ru (172.67.21.207): 56 data bytes
+64 bytes from 172.67.21.207: seq=0 ttl=63 time=41.805 ms
+64 bytes from 172.67.21.207: seq=1 ttl=63 time=38.693 ms
+64 bytes from 172.67.21.207: seq=2 ttl=63 time=39.866 ms
+64 bytes from 172.67.21.207: seq=3 ttl=63 time=43.984 ms
+64 bytes from 172.67.21.207: seq=4 ttl=63 time=38.898 ms
+64 bytes from 172.67.21.207: seq=5 ttl=63 time=38.987 ms
+64 bytes from 172.67.21.207: seq=6 ttl=63 time=39.778 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 38.693/40.287/43.984 ms
+PING netology.ru (172.67.21.207): 56 data bytes
+64 bytes from 172.67.21.207: seq=0 ttl=63 time=41.204 ms
+64 bytes from 172.67.21.207: seq=1 ttl=63 time=40.145 ms
+64 bytes from 172.67.21.207: seq=2 ttl=63 time=40.859 ms
+64 bytes from 172.67.21.207: seq=3 ttl=63 time=40.168 ms
+64 bytes from 172.67.21.207: seq=4 ttl=63 time=41.836 ms
+64 bytes from 172.67.21.207: seq=5 ttl=63 time=39.760 ms
+64 bytes from 172.67.21.207: seq=6 ttl=63 time=39.448 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 39.448/40.488/41.836 ms
+
+8. 2 запуска, 14 отправленных запросов
+
+9. D:\Repository\NDSE_Homework>docker rm pinger
+pinger
+
+10. D:\Repository\NDSE_Homework>docker rmi busybox
+Untagged: busybox:latest
+Untagged: busybox@sha256:9ae97d36d26566ff84e8893c64a6dc4fe8ca6d1144bf5b87b2b85a32def253c7
+Deleted: sha256:65ad0d468eb1c558bf7f4e64e790f586e9eda649ee9f130cd0e835b292bbc5ac
+Deleted: sha256:d51af96cf93e225825efd484ea457f867cb2b967f7415b9a3b7e65a2f803838a
