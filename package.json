@@ -2,11 +2,10 @@
   "name": "nodejs_curs",
   "version": "1.0.0",
   "description": "Курс по Express",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "serv": "node server.js",
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node server.js",
+    "dev": "nodemon -L server.js"
   },
   "author": "Ivan",
   "license": "ISC",
