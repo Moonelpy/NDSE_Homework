@@ -2,9 +2,11 @@ require('dotenv').config();
 const { v4: uuid } = require('uuid');
 const express = require('express');
 const router = express.Router();
+const axios = require('axios')
+
 const Book = require('../../model/Book');
 const library = require('../../db/collections/library');
-
+const counterUrl = process.env.COUNTER_URL || 'http://counter:3001'
 //Получить книгу для добавления
 router.get('/create', (req, res) => {
     res.render('books/create', {
@@ -23,19 +25,29 @@ router.post('/create', (req, res) => {
     res.redirect('/');
 });
 // Получение одной книги по id
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
     const { booksInLibrary } = library;
     const { id } = req.params;
     const idx = booksInLibrary.findIndex((el) => el.id === id);
+    try {
+        await axios.post(`${counterUrl}/counter/${booksInLibrary[idx].id}/incr`)
+        const response = await axios.get(`${counterUrl}/counter/${booksInLibrary[idx].id}`)
+        const getedCount = response.data.count;
 
-    if (idx !== -1) {
-        res.render("books/view", {
-            title: booksInLibrary[idx].title,
-            books: booksInLibrary[idx]
-        });
-    } else {
-        res.redirect('/404')
+        if (idx !== -1) {
+            res.render("books/view", {
+                title: booksInLibrary[idx].title,
+                books: booksInLibrary[idx],
+                count: getedCount
+            });
+        } else {
+            res.redirect('/404')
+        }
+    } catch (error) {
+        console.log(`Произошла ошибка запроса из Redis ${error}`);
+        res.status(500).send('Произошла ошибка сервера');
     }
+
 });
 //Получить книгу для обновления
 router.get('/update/:id', (req, res) => {

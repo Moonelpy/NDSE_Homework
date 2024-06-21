@@ -1,4 +1,4 @@
-<%- include('../port/layout-start', {books: books}) %>
+<%- include('../port/layout-start', { books: books }) %>
 <%- include('../port/menu') %>
 
 <h1><%= books.title %></h1>
@@ -7,7 +7,7 @@
     <div class="col-sm-8">
         <div class="card">
             <div class="card-body">
-
+                <p class="card-text">Кол-во просмотров страницы: <%= count  %></p>
                 <p class="card-text">Жанр: <%= books.description %></p>
                 <p class="card-text">Автор: <%= books.authors %></p>
                 <p class="card-text">В избранном: <%= books.favorite %></p>
