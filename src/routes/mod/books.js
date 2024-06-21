@@ -2,7 +2,7 @@ require('dotenv').config();
 const { v4: uuid } = require('uuid');
 const express = require('express');
 const router = express.Router();
-const Book = require('../../class/Book');
+const Book = require('../../model/Book');
 const library = require('../../db/collections/library');
 
 //Получить книгу для добавления

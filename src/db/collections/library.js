@@ -1,4 +1,4 @@
-const Books = require('../../class/Book')
+const Books = require('../../model/Book')
 const { v4: uuid } = require('uuid');
 
 const library = {

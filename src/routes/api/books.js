@@ -4,7 +4,7 @@ const { v4: uuid } = require('uuid');
 const express = require('express');
 const router = express.Router();
 
-const Book = require('../../class/Book');
+const Book = require('../../model/Book');
 const library = require('../../db/collections/library');
 const upload = require('../../middleware/fileUpload');
 const fs = require("fs");
