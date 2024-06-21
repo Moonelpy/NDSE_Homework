@@ -6,29 +6,21 @@ services:
     volumes:
       - ./data:/data
   counter:
-    image: node:20.14-alpine
-    working_dir: /app
-    volumes: 
-      - ../books_counter:/app
+    image: moonelpy/ndse:counter
     environment:
       - PORT=3001
       - REDIS_URL=redis://storage
     ports:
        - 80:3001
-    command: npm run dev
     depends_on: 
       - storage
   library: 
-    image: node:20.14-alpine
-    working_dir: /app
-    volumes:
-      - ../NDSE_Homework:/app
+    image: moonelpy/ndse:library_with_counter
     environment:
       - PORT=3000
       - COUNTER_URL=http://counter:3001
     ports:
       - 81:3000
-    command: npm run dev
     depends_on: 
       - storage
       - counter
