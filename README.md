@@ -1,64 +1,25 @@
-# Запросы к MongoDB 2.6 (Домашнее задание)
-> Структура коллекции books
-```
-{
-    title: "string",
-    description: "string",
-    authors: "string"
-}
-```
+# Library+Count+Mongo(api) Express.js
 
-1. запрос(ы) для вставки данных минимум о двух книгах в коллекцию books
+## Как запустить
+- прод версия: docker compose up 
+- dev версия: docker compose -f docker-compose.dev.yml up
 
-```
-    db.books.insertOne(
-    {
-        title: "1",
-        description: "1",
-        authors: "1"
-    })
+### Сделано: 
+Для Api ручек добавлена работа с mongoDB.
+Разработка велась в docker compose (для удобства)
+В .gitignore добавлено /data/mongodb (т.к. файлы данных монги храняться локально)
+Собран контейнер с изменениям в library
 
-    db.books.insertOne(
-    {
-        title: "2",
-        description: "2",
-        authors: "2"
-    })
+#### Список действий: 
+| Метод  | URL            | Действие                     | Комментарий                                             |
+|--------|----------------|------------------------------|---------------------------------------------------------|
+| GET    | /api/books     | Получить все книги           | Получаем массив всех книг                                |
+| GET    | /api/books/:id | Получить книгу по ID         | Получаем объект книги, если запись не найдена, вернём 404 |
+| POST   | /api/books     | Создать книгу с файлов       | Создаём книгу, записываем файл и возвращаем её же вместе с присвоенным ID |
+| PUT    | /api/books/:id | Редактировать книгу по ID    | Редактируем объект книги, если запись не найдена, вернём 404 |
+| DELETE | /api/books/:id | Удалить книгу по ID          | Удаляем книгу и файл книги возвращаем ответ: 'ok'                  |
 
-    db.books.insertMany([
-    {
-        title: "1",
-        description: "1",
-        authors: "1"
-    },
-    {
-        title: "2",
-        description: "2",
-        authors: "2"
-    },
-    {
-        title: "3",
-        description: "3",
-        authors: "3"
-    }
-])
-```
 
-2. запрос для поиска полей документов коллекции books по полю title,
+Приложение контеризировано и лежит на [докер хаб]()
 
-```
-db.books.find( { title: "Война и мир" } )
-```
-
-3. запрос для редактирования полей: description и authors коллекции books по \_id записи.
-```
-db.books.updateOne(
-   { _id: ObjectId("mongoid_идентификатор") },
-   { $set: { description: "новое описание", authors: "новый автор" } }
-)
-
-db.books.updateMany(
-    { _id: { $in: [ObjectId("mongoid_идентификатор1"), ObjectId("mongoid_идентификатор2"), ...] } },
-    {$set: { description: "новое описание", authors: "новый автор" } }
-)
-```
+Репозиторий [приложения счётчика](https://github.com/Moonelpy/books_counter/tree/library_counter)

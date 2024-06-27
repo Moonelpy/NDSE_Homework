@@ -16,19 +16,34 @@ services:
     ports:
        - 80:3001
     command: npm run dev
-    depends_on: 
-      - storage
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - type: bind
+        source: ./data/mongodb
+        target: /data/db
+
   library: 
     image: node:20.14-alpine
     working_dir: /app
+    restart: always
     volumes:
       - ../NDSE_Homework:/app
     environment:
       - PORT=3000
       - COUNTER_URL=http://counter:3001
+      - MONGO_URL=mongodb://root:password@mongo:27017/
     ports:
       - 81:3000
     command: npm run dev
     depends_on: 
       - storage
       - counter
+      - mongo

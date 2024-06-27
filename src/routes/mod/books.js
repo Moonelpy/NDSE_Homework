@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios')
 
-const Book = require('../../model/Book');
+const Book = require('../../models/Book');
 const library = require('../../db/collections/library');
 const counterUrl = process.env.COUNTER_URL || 'http://counter:3001'
 //Получить книгу для добавления
