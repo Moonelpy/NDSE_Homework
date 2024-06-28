@@ -3,9 +3,7 @@ const path = require('path');
 
 const express = require('express');
 const router = express.Router();
-const { exec } = require('child_process');
 const Books = require('../../models/Books');
-const library = require('../../db/collections/library');
 const upload = require('../../middleware/fileUpload');
 const fs = require("fs");
 const axios = require("axios");
@@ -87,7 +85,7 @@ router.get('/:id/download', async (req, res) => {
     }
 });
 
-// Удаление книги
+// Удаление книги с файлом
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     try {
