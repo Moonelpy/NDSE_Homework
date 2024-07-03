@@ -1,0 +1,13 @@
+<h1>Авторизация</h1>
+<form action="/mod/user/login" method="post">
+    <section>
+        <label for="username">Имя пользователя</label>
+        <input id="username" name="username" type="text" autocomplete="username" required autofocus>
+    </section>
+    <section>
+        <label for="current-password">Пароль</label>
+        <input id="current-password" name="password" type="password" autocomplete="current-password" required>
+    </section>
+    <button type="submit">Войти</button>
+    <a href="/mod/user/signup">Регистрация</a>
+</form>

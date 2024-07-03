@@ -1,12 +1,12 @@
 require('dotenv').config();
-const { v4: uuid } = require('uuid');
 const express = require('express');
 const router = express.Router();
-const axios = require('axios')
+const axios = require('axios');
 
-const Book = require('../../models/Book');
-const library = require('../../db/collections/library');
-const counterUrl = process.env.COUNTER_URL || 'http://counter:3001'
+const Books = require('../../models/Books');
+const counterUrl = process.env.COUNTER_URL || 'http://counter:3001';
+
+
 //Получить книгу для добавления
 router.get('/create', (req, res) => {
     res.render('books/create', {
@@ -14,79 +14,88 @@ router.get('/create', (req, res) => {
         books: {}
     });
 });
+
 //Добавление новой книги
-router.post('/create', (req, res) => {
-    const { booksInLibrary } = library;
-    const { title, description, authors, favorite, fileCover, fileName } = req.body;
+router.post('/create', async (req, res) => {
+    const book = new Books({
+        title: req.body.title,
+        description: req.body.description,
+        authors: req.body.authors,
+        fileCover: req.body.fileCover,
+        fileName: req.body.fileName
+    });
 
-
-    const newBook = new Book(uuid(), title, description, authors, favorite, fileCover, fileName);
-    booksInLibrary.push(newBook)
+    await book.save();
     res.redirect('/');
 });
 // Получение одной книги по id
 router.get('/:id', async (req, res) => {
-    const { booksInLibrary } = library;
     const { id } = req.params;
-    const idx = booksInLibrary.findIndex((el) => el.id === id);
+    const book = await Books.findById(id);
     try {
-        await axios.post(`${counterUrl}/counter/${booksInLibrary[idx].id}/incr`)
-        const response = await axios.get(`${counterUrl}/counter/${booksInLibrary[idx].id}`)
+        await axios.post(`${counterUrl}/counter/${book.id}/incr`);
+        const response = await axios.get(`${counterUrl}/counter/${book.id}`);
         const getedCount = response.data.count;
 
-        if (idx !== -1) {
+        if (book) {
             res.render("books/view", {
-                title: booksInLibrary[idx].title,
-                books: booksInLibrary[idx],
+                title: book.title,
+                books: book,
                 count: getedCount
             });
         } else {
-            res.redirect('/404')
+            res.redirect('/404');
         }
     } catch (error) {
         console.log(`Произошла ошибка запроса из Redis ${error}`);
         res.status(500).send('Произошла ошибка сервера');
+        res.redirect('/');
     }
 
 });
 //Получить книгу для обновления
-router.get('/update/:id', (req, res) => {
-    const { booksInLibrary } = library;
+router.get('/update/:id', async (req, res) => {
     const { id } = req.params;
-    const idx = booksInLibrary.findIndex((el) => el.id === id);
+    const book = await Books.findById(id);
 
-    if (idx !== -1) {
+    if (book) {
         res.render('books/update', {
             title: "Редактировать книгу",
-            book: booksInLibrary[idx]
+            book: book.id
         });
     } else {
         res.redirect("/404");
     }
 });
 //Обновить книгу
-router.post('/update/:id', (req, res) => {
-    const { booksInLibrary } = library;
-    const { id } = req.params;
-    const idx = booksInLibrary.findIndex((el) => el.id === id);
+router.post('/update/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
 
-    booksInLibrary[idx] = {
-        ...booksInLibrary[idx],
-        ...req.body,
+        await Books.findByIdAndUpdate(id, {
+            ...req.body
+        }),
+    res.redirect('/');
+    } catch (error) {
+        console.log(error);
+        res.redirect('/');
     }
-    res.redirect('/')
+
 });
 // Удаление книги
-router.post('/delete/:id', (req, res) => {
-    const { booksInLibrary } = library;
+router.post('/delete/:id', async (req, res) => {
     const { id } = req.params;
-    const idx = booksInLibrary.findIndex((el) => el.id === id);
+    try {
+        const book = await Books.findById(id);
 
-    if (idx !== -1) {
-        booksInLibrary.splice(idx, 1);
-        res.redirect('/')
-    } else {
-        res.redirect('/404');   
+        if (!book) {
+            return res.redirect('/404');
+        }
+
+        await Books.findByIdAndDelete(id);
+        res.redirect('/');
+    } catch (error) {
+        res.status(500).json({ error: error });
     }
 });
 
