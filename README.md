@@ -1,13 +1,18 @@
-# Library+Count+Mongo(api/mod) Express.js
+# Library+Count+Mongo+SocketIO(api/mod) Express.js
 
 ## Как запустить
-- прод версия: docker compose up
-- dev версия: docker compose -f docker-compose.dev.yml up
+- прод версия: никак не собирал
+- dev версия(проверить можно тут): docker compose -f docker-compose.dev.yml up
 
 ### Сделано: 
-Для Mod ручек добавлена работа с mongoDB.
-Вся разработка велась в docker compose (для удобства)
-В .gitignore добавлено /data/mongodb (т.к. файлы данных монги хранились локально при разработке)
+- Добавлена библиотека Socket.IO
+- На форму просмотра книги(views/books/view) добавлен код для комментариев
+- В основной server.js добавлен код для обработки событий (получение, отправка)
+
+p.s.
+> Вся разработка велась в docker compose (для удобства). Запускается оттуда же, собирать образ для прода не стал.
+
+> В .gitignore добавлено /data/mongodb (т.к. файлы данных монги хранились локально при разработке)
 
 
 #### Список действий: 
