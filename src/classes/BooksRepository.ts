@@ -1,14 +1,15 @@
-import IBook from '../interface/IBook';
+import { injectable } from "inversify";
+import { IBook } from '../interface/IBook';
 
-
-abstract class BooksRepository {
-    abstract createBook(book: IBook): Promise<void>;
+@injectable()
+export abstract class BooksRepository {
+    abstract createBook(book: IBook): Promise<IBook | null>;
 
     abstract getBook(id: string):Promise<IBook | null>;
 
     abstract getBooks():Promise<IBook[]>;
 
-    abstract updateBook(id: string):Promise<void>
+    abstract updateBook(id: string, book: IBook):Promise<IBook | null>
 
-    abstract deleteBook(id:string):Promise<void>
+    abstract deleteBook(id:string):Promise<IBook | null>
 }

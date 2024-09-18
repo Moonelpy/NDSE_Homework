@@ -1,13 +1,15 @@
-export default interface IBook {
+export interface IBook {
     title: string;
 
     description: string;
 
     authors: string;
 
-    favorite: boolean; // не забыть про false по умолчанию
+    favorite?: boolean | null | undefined;
 
-    fileCover: string;
+    fileCover?: string | null | undefined;
 
-    fileName: string;
+    fileName?: string | null | undefined;
+
+    fileBook?: string | null | undefined
 }
