@@ -1,9 +1,10 @@
 const express = require('express');
+
 const router = express.Router();
-const User  = require('../../models/User');
-const hasAuth = require("../../middleware/hasAuth");
-const passport = require('passport')
-require('../../config/passport')
+const passport = require('passport');
+const User = require('../../models/User');
+const hasAuth = require('../../middleware/hasAuth');
+require('../../config/passport');
 
 router.post('/signup', async (req, res) => {
   try {
@@ -17,20 +18,19 @@ router.post('/signup', async (req, res) => {
 });
 
 router.get('/signup', (req, res) => {
-  res.render('user/signup')
+  res.render('user/signup');
 });
 
 router.get('/login', (req, res) => {
-    res.render('user/login')
+  res.render('user/login');
 });
 
 router.get('/me', hasAuth, (req, res) => {
   res.render('user/profile', { user: req.user });
 });
 
-
 router.post('/login', passport.authenticate('local', {
-  failureRedirect: '/mod/user/login'
+  failureRedirect: '/mod/user/login',
 }), (req, res) => {
   res.redirect('/');
 });
