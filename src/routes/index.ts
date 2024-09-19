@@ -1,10 +1,10 @@
-const express = require('express');
-const Books = require('../models/Books');
+import express from 'express';
+import Book from '../models/Books';
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const books = await Books.find();
+  const books = await Book.find();
   res.render('index', {
     title: 'Библиотека',
     books,
@@ -12,4 +12,4 @@ router.get('/', async (req, res) => {
   });
 });
 
-module.exports = router;
+export default router;

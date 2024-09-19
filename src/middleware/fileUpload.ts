@@ -1,6 +1,6 @@
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
+import multer from 'multer';
+import path from 'path';
+import * as fs from 'fs';
 
 const uploadPath = path.join(__dirname, '../db/fileBooks/');
 
@@ -18,5 +18,6 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage });
-module.exports = upload;
+const multerMiddleware = multer({ storage });
+
+export default multerMiddleware;

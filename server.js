@@ -11,7 +11,7 @@ const passport = require('passport');
 const userRouter = require('./src/routes/mod/user');
 const apiBooksRouter = require('./src/routes/api/books');
 const modBooksRouter = require('./src/routes/mod/books');
-const indexRouter = require('./src/routes/index');
+const indexRouter = require('./src/routes');
 const errorMiddleware = require('./src/middleware/error/404');
 
 const app = express();
@@ -64,6 +64,7 @@ io.on('connection', (socket) => {
 
 const PORT = Number(process.env.PORT) || 3000;
 const UrlDB = process.env.MONGO_URL || 'mongodb://root:password@mongo:27017/';
+
 async function start(PORT, UrlDB) {
   try {
     await mongoose.connect(UrlDB);
