@@ -1,5 +1,5 @@
 import express from 'express';
-import multer from '../../middleware/fileUpload';
+import multer from '../../middleware/multer';
 import bookController from '../../controllers/api/bookController';
 
 const router = express.Router();

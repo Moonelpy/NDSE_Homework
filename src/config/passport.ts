@@ -3,9 +3,9 @@ import passport from 'passport';
 import User from '../models/User';
 import { IUser } from '../interface/IUser';
 
-type DoneFunction = (error: any, user: IUser | false, options?: { message: string }) => void
+type DoneFunc = (error: any, user: IUser | false, options?: { message: string }) => void
 
-const verify = async (username: string, password: string, done: DoneFunction) => {
+const verify = async (username: string, password: string, done: DoneFunc) => {
 	try {
 		const user = await User.findOne({ username: username });
 
@@ -13,9 +13,11 @@ const verify = async (username: string, password: string, done: DoneFunction) =>
 			return done(null, false);
 
 
+
 		// Проверка пароля
 		if (user.password !== password)
 			return done(null, false);
+
 
 
 		return done(null, user);
@@ -31,7 +33,7 @@ const options = {
 
 passport.use('local', new LocalStrategy(options, verify));
 
-passport.serializeUser((user: any, done: DoneFunction) => {
+passport.serializeUser((user: any, done: DoneFunc) => {
 	done(null, user._id);
 });
 

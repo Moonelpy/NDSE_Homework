@@ -8,13 +8,13 @@ services:
   counter:
     image: node:20.14-alpine
     working_dir: /app
-    volumes: 
+    volumes:
       - ../books_counter:/app
     environment:
       - PORT=3001
       - REDIS_URL=redis://storage
     ports:
-       - 80:3001
+      - 80:3001
     command: npm run dev
 
   mongo:
@@ -30,12 +30,12 @@ services:
         source: ./data/mongodb
         target: /data/db
 
-  library: 
+  library:
     image: node:20.14-alpine
     working_dir: /app
     restart: always
     volumes:
-      - ../NDSE_Homework:/app
+      - ./:/app
     environment:
       - PORT=3000
       - COUNTER_URL=http://counter:3001
@@ -43,7 +43,7 @@ services:
     ports:
       - 81:3000
     command: npm run dev
-    depends_on: 
+    depends_on:
       - storage
       - counter
       - mongo

@@ -10,11 +10,11 @@ import mongoose from 'mongoose';
 import { Server } from 'socket.io';
 import { createServer } from 'node:http';
 
-import userRouter from './src/routes/mod/user';
-import apiBooksRouter from './src/routes/api/book';
-import modBooksRouter from './src/routes/mod/books';
-import indexRouter from './src/routes';
-import errorMiddleware from './src/middleware/error/404';
+import userRouter from './routes/mod/user';
+import apiBooksRouter from './routes/api/book';
+import modBooksRouter from './routes/mod/books';
+import indexRouter from './routes';
+import errorMiddleware from './middleware/error/404';
 
 const app = express();
 const server = createServer(app);
@@ -34,7 +34,7 @@ app.use('/mod/user', userRouter);
 app.use('/api/books', apiBooksRouter);
 app.use('/mod/books', modBooksRouter);
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'src', 'views'));
+app.set('views', path.join(__dirname, 'src/views'));
 app.use(errorMiddleware);
 
 io.on('connection', (socket) => {
@@ -64,10 +64,11 @@ io.on('connection', (socket) => {
 	});
 });
 
-const PORT = Number(process.env.PORT) || 3000;
+
+const PORT = +(process.env.PORT || 3000);
 const UrlDB = process.env.MONGO_URL || 'mongodb://root:password@mongo:27017/';
 
-async function start(PORT, UrlDB) {
+async function start(PORT: number, UrlDB: string) {
 	try {
 		await mongoose.connect(UrlDB);
 		console.log('Mongo connected!');
@@ -79,4 +80,4 @@ async function start(PORT, UrlDB) {
 	}
 }
 
-await start(PORT, UrlDB);
+start(PORT, UrlDB);

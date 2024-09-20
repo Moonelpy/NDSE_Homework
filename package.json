@@ -2,14 +2,14 @@
   "name": "nodejs_curs",
   "version": "1.0.0",
   "description": "Курс по Express",
-  "main": "server.ts",
+  "main": "src/server.ts",
   "scripts": {
-    "stage": "node ./dist/server.js",
-    "dev": "nodemon -L ./src/server.ts",
+    "start": "node ./dist/server.js",
+    "dev": "nodemon -L ./dist/server.js",
+    "build:watch": "nodemon -L ./src/server.ts",
     "eslint": "npx eslint .",
     "eslint:fix": "eslint . --fix",
-    "build:only": "tsc --project ./tsconfig.json",
-    "build:dev": "tsc --project ./tsconfig.json --watch"
+    "build": "tsc --project ./tsconfig.json"
   },
   "author": "Ivan",
   "license": "ISC",

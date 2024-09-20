@@ -5,11 +5,11 @@ export interface IBook {
 
 	authors: string;
 
-	favorite?: boolean | null | undefined;
+	favorite?: boolean | undefined;
 
-	fileCover?: string | null | undefined;
+	fileCover?: string | undefined;
 
-	fileName?: string | null | undefined;
+	fileName?: string | undefined;
 
-	fileBook?: string | null | undefined
+	fileBook?: string | undefined;
 }

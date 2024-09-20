@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
+import { IBook } from '../interface/IBook';
 
-const BooksSchema = new mongoose.Schema({
+const BooksSchema = new mongoose.Schema<IBook>({
 	title: { type: String, required: true },
 	description: { type: String, required: true },
 	authors: { type: String, required: true },

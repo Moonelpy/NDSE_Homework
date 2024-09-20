@@ -2,11 +2,12 @@ import multer from 'multer';
 import path from 'path';
 import * as fs from 'fs';
 
-const uploadPath = path.join(__dirname, '../db/fileBooks/');
+const uploadPath = path.resolve('dist/db/fileBooks/');
 
 // Создание директории перед загрузкой если ее нет
 if (!fs.existsSync(uploadPath))
-	fs.mkdirSync(uploadPath);
+	fs.mkdirSync(uploadPath, { recursive: true });
+
 
 
 const storage = multer.diskStorage({
@@ -18,6 +19,6 @@ const storage = multer.diskStorage({
 	},
 });
 
-const multerMiddleware = multer({ storage });
+const UploadFile = multer({ storage });
 
-export default multerMiddleware;
+export default UploadFile;

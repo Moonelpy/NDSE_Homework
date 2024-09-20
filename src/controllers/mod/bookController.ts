@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
 import axios from 'axios';
-import Books from '../../models/Books';
+import Book from '../../models/Book';
+import { IBook } from '../../interface/IBook';
+import mongoose from 'mongoose';
 
+type IBookDoc = IBook & mongoose.Document
 const counterUrl = process.env.COUNTER_URL || 'http://counter:3001';
 
 class bookController {
@@ -14,7 +17,7 @@ class bookController {
 
 	async createBook(req: Request, res: Response) {
 		try {
-			const book = new Books(req.body);
+			const book = new Book(req.body);
 			await book.save();
 			res.redirect('/');
 		} catch (err) {
@@ -25,9 +28,9 @@ class bookController {
 
 	async updateBook(req: Request, res: Response) {
 		try {
-			const { id } = req.params;
+			const id = req.params.id;
 
-			await Books.findByIdAndUpdate(id, req.body);
+			await Book.findByIdAndUpdate({ id: id }, req.body);
 			res.redirect('/');
 		} catch (error) {
 			console.log(error);
@@ -37,7 +40,7 @@ class bookController {
 
 	async renderUpdateBook(req: Request, res: Response) {
 		const { id } = req.params;
-		const book = await Books.findById(id);
+		const book = await Book.findById(id);
 
 		if (book) {
 			res.render('books/update', {
@@ -51,13 +54,13 @@ class bookController {
 
 	async getBookPage(req: Request, res: Response) {
 		const { id } = req.params;
-		const book = await Books.findById(id);
+		const book: IBookDoc | null = await Book.findById({ _id: id });
 		try {
-			await axios.post(`${counterUrl}/counter/${book.id}/incr`);
-			const response = await axios.get(`${counterUrl}/counter/${book.id}`);
-			const getsCount = response.data.count;
-
 			if (book) {
+				await axios.post(`${counterUrl}/counter/${book.id}/incr`);
+				const response = await axios.get(`${counterUrl}/counter/${book.id}`);
+				const getsCount = response.data.count;
+
 				res.render('books/view', {
 					title: book.title,
 					books: book,
@@ -76,14 +79,14 @@ class bookController {
 	async deleteBook(req: Request, res: Response) {
 		const { id } = req.params;
 		try {
-			const book = await Books.findById(id);
+			const book = await Book.findOne({ _id: id });
 
 			if (!book)
 				return res.redirect('/404');
 
 
 
-			await Books.findByIdAndDelete(id);
+			await Book.findByIdAndDelete(id);
 			res.redirect('/');
 		} catch (error) {
 			res.status(500).json({ error });
