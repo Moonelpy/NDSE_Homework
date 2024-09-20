@@ -1,15 +1,15 @@
 export interface IBook {
-    title: string;
+	title: string;
 
-    description: string;
+	description: string;
 
-    authors: string;
+	authors: string;
 
-    favorite?: boolean | null | undefined;
+	favorite?: boolean | null | undefined;
 
-    fileCover?: string | null | undefined;
+	fileCover?: string | null | undefined;
 
-    fileName?: string | null | undefined;
+	fileName?: string | null | undefined;
 
-    fileBook?: string | null | undefined
+	fileBook?: string | null | undefined
 }

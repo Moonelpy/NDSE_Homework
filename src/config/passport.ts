@@ -6,40 +6,40 @@ import { IUser } from '../interface/IUser';
 type DoneFunction = (error: any, user: IUser | false, options?: { message: string }) => void
 
 const verify = async (username: string, password: string, done: DoneFunction) => {
-  try {
-    const user = await User.findOne({ username: username });
+	try {
+		const user = await User.findOne({ username: username });
 
-    if (!user) {
-      return done(null, false);
-    }
+		if (!user)
+			return done(null, false);
 
-    // Проверка пароля
-    if (user.password !== password) {
-      return done(null, false);
-    }
 
-    return done(null, user);
-  } catch (err) {
-    return done(err, false);
-  }
+		// Проверка пароля
+		if (user.password !== password)
+			return done(null, false);
+
+
+		return done(null, user);
+	} catch (err) {
+		return done(err, false);
+	}
 };
 
 const options = {
-  usernameField: 'username',
-  passwordField: 'password',
+	usernameField: 'username',
+	passwordField: 'password',
 };
 
 passport.use('local', new LocalStrategy(options, verify));
 
 passport.serializeUser((user: any, done: DoneFunction) => {
-  done(null, user._id);
+	done(null, user._id);
 });
 
 passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (err) {
-    return done(err);
-  }
+	try {
+		const user = await User.findById(id);
+		done(null, user);
+	} catch (err) {
+		return done(err);
+	}
 });

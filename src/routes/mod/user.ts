@@ -12,9 +12,11 @@ router.get('/signup', userController.renderSingup);
 router.get('/login', userController.renderLogin);
 
 router.post('/login', passport.authenticate('local', {
-  failureRedirect: '/mod/user/login',
+	failureRedirect: '/mod/user/login',
 }), userController.login);
 
 router.get('/me', hasAuth, userController.renderProfile);
 
 router.get('/logout', userController.logout);
+
+export default router;
